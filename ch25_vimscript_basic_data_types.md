@@ -1,4 +1,4 @@
-# Ch24. Vimscript Basic Data Types
+# Ch25. Vimscript Basic Data Types
 
 In the next few chapters, you will learn about Vimscript, Vim's built-in programming language.
 
@@ -25,9 +25,11 @@ Vim has 10 different data types:
 
 I will cover the first six data types here. In Ch. 27, you will learn about Funcref. For more about Vim data types, check out `:h variables`.
 
-## Echo
+## Following Along With Ex Mode
 
-Since Vim does not technically have a REPL, you can use `echo` or `echom` commands. The former prints the evaluated expression you give. The latter does the same, but in addition, it stores the result in the message history.
+Vim technically does not have a built-in REPL, but it has a mode, Ex mode, that can be used like one. You can go to the Ex mode with `Q` or `gQ`. The Ex mode is like an extended command-line mode (it's like typing command-line mode commands non-stop). To quit the Ex mode, type `:visual`.
+
+You can use either `:echo` or `:echom` on this chapter and the subsequent Vimscript chapters to code along. They are like `console.log` in JS or `print` in Python. The `:echo` command prints the evaluated expression you give. The `:echom` command does the same, but in addition, it stores the result in the message history.
 
 ```viml
 :echom "hello echo message"
@@ -44,8 +46,6 @@ To clear your message history, run:
 ```
 :messages clear
 ```
-
-For the remaining of the chapter, I will use `:echo` (because it is one letter shorter), but you are more than welcome to use `:echom` or other methods.
 
 ## Number
 
@@ -285,33 +285,33 @@ On the other hand, this is falsy:
 
 Vim coerces "donuts12" into 0, because the first character is not a number.
 
-### Double vs Single quotes
+### Double vs Single Quotes
 
 Double quotes behave differently than single quotes. Single quotes display characters literally while double quotes accept special characters.
 
 What are special characters? Check out the newline and double-quotes display:
 
 ```viml
-:echo "hello\\nworld"
+:echo "hello\nworld"
 " returns
 " hello
 " world
 
-:echo "hello \\"world\\""
+:echo "hello \"world\""
 " returns "hello "world""
 ```
 
 Compare that with single-quotes:
 
 ```
-:echo 'hello\\nworld'
-" returns 'hello\\nworld'
+:echo 'hello\nworld'
+" returns 'hello\nworld'
 
-:echo 'hello \\"world\\"'
-" returns 'hello \\"world\\"'
+:echo 'hello \"world\"'
+" returns 'hello \"world\"'
 ```
 
-Special characters are special string characters that when escaped, behave differently. `\\n` acts as a newline. `\\"` behaves like a literal `"`. For a list of other special characters, check out `:h expr-quote`.
+Special characters are special string characters that when escaped, behave differently. `\n` acts like a newline. `\"` behaves like a literal `"`. For a list of other special characters, check out `:h expr-quote`.
 
 ### String Procedures
 
@@ -566,7 +566,7 @@ You can mutate multiple list items directly:
 :let favoriteFlavor = ["chocolate", "glazed", "plain"]
 :let favoriteFlavor[2:] = ["strawberry", "chocolate"]
 :echo favoriteFlavor
-returns ['chocolate', 'glazed', 'strawberry', 'chocolate']
+" returns ['chocolate', 'glazed', 'strawberry', 'chocolate']
 ```
 
 ## Dictionary
@@ -644,7 +644,7 @@ You can modify or even add a dictionary content:
 
 ### Dictionary Functions
 
-Let's explore some of Vim's built-in functions to handle Dictionaries.
+Let's explore some of Vim's built-in functions to handle dictionaries.
 
 To check the length of a dictionary, use `len()`.
 
@@ -655,7 +655,7 @@ To check the length of a dictionary, use `len()`.
 " returns 3
 ```
 
-To see if a dictionary contains a specific key, use `has_key()`
+To see if a dictionary contains a specific key, use `has_key()`.
 
 ```
 :let mealPlans = #{breakfast: "waffles", lunch: "pancakes", dinner: "donuts"}
@@ -709,7 +709,13 @@ To convert a dictionary into a list of lists, use `items()`:
 
 :echo breakfastNo
 " returns {'2': '9am', '11ses': '11am'}
+```
 
+Since a dictionary contains key-value pairs, Vim provides `v:key` special variable that works similar to `v:val`. When iterating through a dictionary, `v:key` will hold the value of the current iterated key. 
+
+If you have a `mealPlans` dictionary, you can map it using `v:key`.
+
+```
 :let mealPlans = #{breakfast: "waffles", lunch: "pancakes", dinner: "donuts"}
 :call map(mealPlans, 'v:key . " and milk"')
 
@@ -717,7 +723,15 @@ To convert a dictionary into a list of lists, use `items()`:
 " returns {'lunch': 'lunch and milk', 'breakfast': 'breakfast and milk', 'dinner': 'dinner and milk'}
 ```
 
-The `v:key` is Vim's special variable, much like `v:val`. When iterating through a dictionary, `v:key` will hold the value of the current iterated key.
+Similarly, you can map it using `v:val`:
+
+```
+:let mealPlans = #{breakfast: "waffles", lunch: "pancakes", dinner: "donuts"}
+:call map(mealPlans, 'v:val . " and milk"')
+
+:echo mealPlans
+" returns {'lunch': 'pancakes and milk', 'breakfast': 'waffles and milk', 'dinner': 'donuts and milk'}
+```
 
 To see more dictionary functions, check out `:h dict-functions`.
 
@@ -770,7 +784,7 @@ Similar to `v:none`.
 " returns {"test": null}
 ```
 
-## Learn Data Types The Smart Way
+## Learn Data Types the Smart Way
 
 In this chapter, you learned about Vimscript's basic data types: number, float, string, list, dictionary, and special. Learning these is the first step to start Vimscript programming.
 

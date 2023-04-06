@@ -63,7 +63,7 @@ Let's use the makefile to compile a basic `.cpp` program. First, let's create a 
 #include <iostream>
 
 int main() {
-    std::cout << "Hello!\\n";
+    std::cout << "Hello!\n";
     return 0;
 }
 ```
@@ -104,19 +104,19 @@ makeprg=make
 The default `:make` command is the `make` external command. To change the `:make` command to execute `g++ {your-file-name}` each time you run it, run:
 
 ```
-:set makeprg=g++\\ %
+:set makeprg=g++\ %
 ```
 
-The `\\` is to escape the space after `g++` (you need to escape the escape). The `%` symbol in Vim represents the current file. The command `g++\\ %` is equivalent to running `g++ hello.cpp`.
+The `\` is to escape the space after `g++`. The `%` symbol in Vim represents the current file. The command `g++\\ %` is equivalent to running `g++ hello.cpp`.
 
 Go to `./hello.cpp` then run `:make`. Vim compiles `hello.cpp` and creates `a.out` because you didn't specify the output. Let's refactor it so it will name the compiled output with the name of the original file minus the extension. Run or add this to vimrc:
 
 ```
-set makeprg=g++\\ %\\ -o\\ %<
+set makeprg=g++\ %\ -o\ %<
 ```
 
 The breakdown:
-- `g++\\ %` is the same as above. It is equivalent to running `g++ <your-file>`.
+- `g++\ %` is the same as above. It is equivalent to running `g++ <your-file>`.
 - `-o` is the output option.
 - `%<` in Vim represents the current file name without an extension (`hello.cpp` becomes `hello`).
 
@@ -124,7 +124,7 @@ When you run `:make` from inside `./hello.cpp`, it is compiled into `./hello`. T
 
 For more, check out `:h :compiler` and `:h write-compiler-plugin`.
 
-## Auto-compile On Save
+## Auto-compile on Save
 
 You can make life even easier by automating compilation. Recall that you can use Vim's `autocmd` to trigger automatic actions based on certain events. To automatically compile `.cpp` files on each save add this on your vimrc:
 
@@ -139,7 +139,7 @@ Each time you save inside a `.cpp` file, Vim executes the `make` command.
 Vim has a `:compiler` command to quickly switch compilers. Your Vim build probably comes with several pre-built compiler configurations. To check what compilers you have, run:
 
 ```
-:e $VIMRUNTIME/compilers/<Tab>
+:e $VIMRUNTIME/compiler/<Tab>
 ```
 
 You should see a list of compilers for different programming languages.
@@ -160,7 +160,7 @@ Vim runs the `$VIMRUNTIME/compiler/ruby.vim` script and changes the `makeprg` to
 
 You don't have to use the `:compiler` and `makeprg` to compile a program. You can run a test script, lint a file, send a signal, or anything you want.
 
-## Creating A Custom Compiler
+## Creating a Custom Compiler
 
 Let's create a simple Typescript compiler. Install Typescript (`npm install -g typescript`) to your machine. You should now have the `tsc` command. If you haven't played with typescript before, `tsc` compiles a Typescript file into a Javascript file. Suppose that you have a file, `hello.ts`:
 
@@ -287,7 +287,7 @@ autocmd BufEnter *_spec.rb let b:dispatch = 'bundle exec rspec %'
 
 Now each time you enter a file (`BufEnter`) that ends with `_spec.rb`, running `:Dispatch` automatically executes `bundle exec rspec {your-current-ruby-spec-file}`.
 
-## Learn Compile The Smart Way
+## Learn Compile the Smart Way
 
 In this chapter, you learned that you can use the `make` and `compiler` commands to run *any* process from inside Vim asynchronously to complement your programming workflow. Vim's ability to extend itself with other programs makes it powerful.
 

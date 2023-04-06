@@ -37,7 +37,7 @@ qa0gU$jq
 ```
 
 The breakdown:
-- `qa` starts recording a macro in the "a register.
+- `qa` starts recording a macro in the a register.
 - `0` goes to beginning of the line.
 - `gU$` uppercases the text from your current location to the end of the line.
 - `j` goes down one line.
@@ -63,7 +63,7 @@ qa0W~jq
 ```
 
 Here's the breakdown of the command above:
-- `qa` starts recording a macro in the "a register.
+- `qa` starts recording a macro in the a register.
 - `0` goes to the beginning of the line.
 - `W` goes to the next WORD.
 - `~` toggles the case of the character under the cursor.
@@ -80,7 +80,7 @@ Running `@a` in normal mode is not the only way you can execute macros in Vim. Y
 
 The `:normal` command accepts range as arguments. You can use this to run macro in select ranges. If you want to execute your macro between lines 2 and 3, you can run `:2,3 normal @a`.
 
-## Executing A Macro Across Multiple Files
+## Executing a Macro Across Multiple Files
 
 Suppose you have multiple `.txt` files, each contains some texts. Your task is to uppercase the first word only on lines containing the word "donut". Assume you have `0W~j` in register a (the same macro as before). How can you quickly accomplish this?
 
@@ -135,41 +135,41 @@ qaqqa0W~j@aq
 ```
 
 Here is the breakdown of the steps:
-- `qaq` records an empty macro "a. It is necessary to start with an empty register because when you recursively call the macro, it will run whatever is in that register.
+- `qaq` records an empty macro a. It is necessary to start with an empty register because when you recursively call the macro, it will run whatever is in that register.
 - `qa` starts recording on register a.
 - `0` goes to the first character in the current line.
 - `W` goes to the next WORD.
 - `~` toggles the case of the character under the cursor.
 - `j` goes down one line.
-- `@a` executes macro "a.
+- `@a` executes macro a.
 - `q` stops recording.
 
 Now you can just run `@a` and watch Vim execute the macro recursively.
 
 How did the macro know when to stop? When the macro was on the last line, it triedto run `j`, since there was no more line to go to, it stopped the macro execution.
 
-## Appending A Macro
+## Appending a Macro
 
-If you need to add actions to an existing macro, instead of recreating the macro from scratch, you can append actions to an existing one. In the register chapter, you learned that you can append a named register by using its uppercased symbol. The same rule applies. To append actions to register a macro, use register "A.
+If you need to add actions to an existing macro, instead of recreating the macro from scratch, you can append actions to an existing one. In the register chapter, you learned that you can append a named register by using its uppercased symbol. The same rule applies. To append actions to register a macro, use register A.
 
-In addition, you also want to add a dot at the end of the line. Assume you have the actions `0W~` stored in register a already (it's a little different from the previous macro, it omits the `j` motion), run:
+Record a macro in register a: `qa0W~q` (this sequence toggles the case of the next WORD in a line). If you want to append a new sequence to also add a dot at the end of the line, run:
 
 ```
 qAA.<Esc>q
 ```
 
 The breakdown:
-- `qA` starts recording the macro in register "A.
-- `A.<Esc>` inserts at the end of the line (here `A` is the insert mode command, not to be confused with the macro "A) a dot, then exits insert mode.
+- `qA` starts recording the macro in register A.
+- `A.<Esc>` inserts at the end of the line (here `A` is the insert mode command, not to be confused with the macro A) a dot, then exits insert mode.
 - `q` stops recording macro.
 
-Now when you execute `@a`, watch the cursor goes to the first character in the line (`0`), goes to the next WORD (`W`), toggles the case of the character under the cursor (`~`), goes to insert mode at the end of the line (`A`), writes a dot ("."), and exits insert mode (`<Esc>`).
+Now when you execute `@a`, it not only toggles the case of the next WORD, it also adds a dot at the end of the line.
 
-## Amending A Macro
+## Amending a Macro
 
 What if you need to add new actions in the middle of a macro?
 
-Assume that you have a macro that toggles the first actual word and adding a period at the end of the line, `0W~A.<Esc>`. Suppose that between uppercasing the first word and adding a period at the end of the line, you need to add the word "deep fried" right before the word "donut" *(because the only thing better than regular donuts are deep fried donuts)*.
+Assume that you have a macro that toggles the first actual word and adding a period at the end of the line, `0W~A.<Esc>` in register a. Suppose that between uppercasing the first word and adding a period at the end of the line, you need to add the word "deep fried" right before the word "donut" *(because the only thing better than regular donuts are deep fried donuts)*.
 
 I will reuse the text from earlier section:
 ```
@@ -185,7 +185,7 @@ First, let's call the existing macro (assume you have kept the macro from the pr
 0W~A.^[
 ```
 
-What is this `^[`? Didn't you do `0W~A.<Esc>`? `^[` is Vim's *internal code* representation of `<Esc>`. With certain special keys, Vim prints the representation of those keys in the form of internal codes. Some common keys that have internal code representations are `<Esc>`, `<Backspace>`, and `<Enter>`. There are more special keys, but they are not within the scope of this chapter.
+What is this `^[`? Didn't you do `0W~A.<Esc>`? Where is the `<Esc>`? `^[` is Vim's *internal code* representation of `<Esc>`. With certain special keys, Vim prints the representation of those keys in the form of internal codes. Some common keys that have internal code representations are `<Esc>`, `<Backspace>`, and `<Enter>`. There are more special keys, but they are not within the scope of this chapter.
 
 Back to the macro, right after the toggle case operator (`~`), let's add the instructions to go to the end of the line (`$`), go back one word (`b`), go to the insert mode (`i`), type "deep fried " (don't forget the space after "fried "), and exit insert mode (`<Esc>`).
 
@@ -205,7 +205,7 @@ To add the amended instruction into register a, you can do it the same way as ad
 
 Now when you execute `@a`, your macro will toggle the case of the first word, add "deep fried " before "donut", and add a "." at the end of the line. Yum!
 
-An alternative way to amend a macro is to use a command line expression. Do `:let @a="`, then do `Ctrl-R Ctrl-R a`, this will literally paste the content of register a. Finally, don't forget to close the double quotes (`"`). You might have something like `:let @a="0W~$bideep fried ^[A.^["`.
+An alternative way to amend a macro is to use a command line expression. Do `:let @a="`, then do `Ctrl-R a`, this will literally paste the content of register a. Finally, don't forget to close the double quotes (`"`). You might have something like `:let @a="0W~$bideep fried ^[A.^["`.
 
 ## Macro Redundancy
 
@@ -213,7 +213,7 @@ You can easily duplicate macros from one register to another. For example, to du
 
 I find creating a redundancy useful on my most frequently used macros. In my workflow, I usually record macros in the first seven alphabetical letters (a-g) and I often replace them without much thought. If I move the useful macros towards the end of the alphabets, I can preserve them without worrying that I might accidentally replace them.
 
-## Series Vs Parallel Macro
+## Series vs Parallel Macro
 
 Vim can execute macros in series and parallel. Suppose you have this text:
 
@@ -254,11 +254,11 @@ Running `99@a`, only executes the macro three times. It does not execute the mac
 
 Run the macro in parallel.
 
-Recall from earlier section that macros can be executed using the  command line command `:normal` (ex: `:3,5 normal @a` executes macro "a on lines 3-5). If you run `:1,$ normal @a`, you will see that the macro is being executed on all lines except the "foo" line. It works!
+Recall from earlier section that macros can be executed using the  command line command `:normal` (ex: `:3,5 normal @a` executes macro a on lines 3-5). If you run `:1,$ normal @a`, you will see that the macro is being executed on all lines except the "foo" line. It works!
 
 Although internally Vim does not actually run the macros in parallel, outwardly, it behaves like it. Vim executes `@a` *independently* on each line from the first to the last line (`1,$`). Since Vim executes these macros independently, each line does not know that one of the macro executions had failed on the "foo" line.
 
-## Learn Macros The Smart Way
+## Learn Macros the Smart Way
 
 Many things you do in editing are repetitive. To get better at editing, get into the habit of detecting repetitive actions. Use macros (or dot command) so you don't have to perform the same action twice. Almost everything that you can do in Vim can be replicated with macros.
 

@@ -1,4 +1,4 @@
-# Ch23. Vim Runtime
+# Ch24. Vim Runtime
 
 In the previous chapters, I mentioned that Vim automatically looks for special paths like `pack/` (Ch. 22) and `compiler/` (Ch. 19) inside the `~/.vim/` directory. These are examples of Vim runtime paths.
 
@@ -29,6 +29,14 @@ echo "chocolate!"
 Now close Vim. The next time you start Vim, you will see both `"donut!"` and `"chocolate!"` echoed. The plugin runtime path can be used for initializations scripts.
 
 ## Filetype Detection
+
+Before you start, to ensure that these detections work, make sure that your vimrc contains at least the following line:
+
+```
+filetype plugin indent on
+```
+
+Check out `:h filetype-overview` for more context. Essentially this turns on Vim's filetype detection.
 
 When you open a new file, Vim usually knows what kind of file it is. If you have a file `hello.rb`, running `:set filetype?` returns the correct response `filetype=ruby`.
 
@@ -146,13 +154,13 @@ One warning: these files are run each time a buffer file type is set (`set filet
 
 ## Indent Files
 
-Vim has an indent runtime path that works similar to ftplugin, where Vim looks for a file named the same as the opened file type. The purpose of these indent runtime paths is to store indent-related codes. If you the file `~/.vim/indent/chocodonut.vim`, it will be executed only when you open a chocodonut file type. You can store indent-related codes for chocodonut files here.
+Vim has an indent runtime path that works similar to ftplugin, where Vim looks for a file named the same as the opened file type. The purpose of these indent runtime paths is to store indent-related codes. If you have the file `~/.vim/indent/chocodonut.vim`, it will be executed only when you open a chocodonut file type. You can store indent-related codes for chocodonut files here.
 
 ## Colors
 
 Vim has a colors runtime path (`~/.vim/colors/`) to store color schemes. Any file that goes inside the directory will be displayed in the `:color` command-line command.
 
-If you have a `~/.vim/colors/beautifulprettycolors.vim` file, when you run `:color` and press tab, you will see `beautifulprettycolors` as one of the color options. If you prefer to add your own color scheme, this is the place to go.
+If you have a `~/.vim/colors/beautifulprettycolors.vim` file, when you run `:color` and press Tab, you will see `beautifulprettycolors` as one of the color options. If you prefer to add your own color scheme, this is the place to go.
 
 If you want to check out the color schemes other people made, a good place to visit is [vimcolors](https://vimcolors.com/).
 
@@ -243,7 +251,7 @@ Vim has an environment variable `$VIMRUNTIME` for default scripts and support fi
 
 The structure should look familiar. It contains many runtime paths you learned in this chapter.
 
-Recall in Chapter 21, you learned that when you open Vim, it looks for a vimrc files in seven different locations. I said that the last location Vim checks is `$VIMRUNTIME/default.vim`. If Vim fails to find any uservimrc files, Vim uses a `default.vim` as vimrc.
+Recall in Chapter 21, you learned that when you open Vim, it looks for a vimrc files in seven different locations. I said that the last location Vim checks is `$VIMRUNTIME/defaults.vim`. If Vim fails to find any user vimrc files, Vim uses a `defaults.vim` as vimrc.
 
 Have you ever tried running Vim without syntax plugin like vim-polyglot and yet your file is still syntatically highlighted? That is because when Vim fails to find a syntax file from the runtime path, Vim looks for a syntax file from `$VIMRUNTIME` syntax directory.
 
@@ -271,6 +279,6 @@ If inside `~/box/of/donuts/`, you have a plugin directory (`~/box/of/donuts/plug
 
 Try this yourself: create an arbitrary path and add it to your runtimepath. Add some of the runtime paths you learned from this chapter. Make sure they work as expected.
 
-## Learn Runtime The Smart Way
+## Learn Runtime the Smart Way
 
 Take your time reading it and play around with these runtime paths. To see how runtime paths are being used in the wild, go to the repository of one of your favorite Vim plugins and study its directory structure. You should be able to understand most of them now. Try to follow along and discern the big picture. Now that you understand Vim directory structure, you're ready to learn Vimscript.

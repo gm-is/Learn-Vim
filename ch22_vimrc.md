@@ -1,11 +1,10 @@
-# Ch21. Vimrc
+# Ch22. Vimrc
 
-In the previous chapters, you learned how to use Vim text editor. This is great, but not the whole thing. To use Vim more effectively, you will need to learn how to configure it. The best place to start is your vimrc. TBC
-In the previous chapters, you learned how to use Vim. In this chapter, you will learn how to orgnize and configure vimrc. 
+In the previous chapters, you learned how to use Vim. In this chapter, you will learn how to organize and configure vimrc. 
 
 ## How Vim Finds Vimrc
 
-The conventional wisdom for vimrc is to add a `.vimrc` dotfile in the root directory `~/.vimrc` (it might be different depending on your OS).
+The conventional wisdom for vimrc is to add a `.vimrc` dotfile in the home directory `~/.vimrc` (it might be different depending on your OS).
 
 Behind the scene, Vim looks at multiple places for a vimrc file. Here are the places that Vim checks:
 - `$VIMINIT`
@@ -13,28 +12,27 @@ Behind the scene, Vim looks at multiple places for a vimrc file. Here are the pl
 - `$HOME/.vim/vimrc`
 - `$EXINIT`
 - `$HOME/.exrc`
-- `$HOME/.vim/exrc`
-- `$VIMRUNTIME/default.vim`
+- `$VIMRUNTIME/defaults.vim`
 
-When you start Vim, it will check the above seven locations in that order for a vimrc file. The first found vimrc file will be used and the rest is ignored. 
+When you start Vim, it will check the above six locations in that order for a vimrc file. The first found vimrc file will be used and the rest is ignored. 
 
 First Vim will look for a `$VIMINIT`. If there is nothing there, Vim will check for `$HOME/.vimrc`. If there is nothing there, Vim will check for `$HOME/.vim/vimrc`. If Vim finds it, it will stop looking and use `$HOME/.vim/vimrc`. 
 
 The first location, `$VIMINIT`, is an environment variable. By default it is undefined. If you want to use `~/dotfiles/testvimrc` as your `$VIMINIT` value, you can create an environment variable containing the path of that vimrc. After you run `export VIMINIT='let $MYVIMRC="$HOME/dotfiles/testvimrc" | source $MYVIMRC'`, Vim will now use `~/dotfiles/testvimrc` as your vimrc file.
 
-The second location, `$HOME/.vimrc`, is the conventional path for many Vim users. `$HOME` in many cases is your root directory (`~`). If you have a `~/.vimrc` file, Vim will use this as your vimrc file.
+The second location, `$HOME/.vimrc`, is the conventional path for many Vim users. `$HOME` in many cases is your home directory (`~`). If you have a `~/.vimrc` file, Vim will use this as your vimrc file.
 
 The third, `$HOME/.vim/vimrc`, is located inside the `~/.vim` directory. You might have the `~/.vim` directory already for your plugins, custom scripts, or View files. Note that there is no dot in vimrc file name (`$HOME/.vim/.vimrc` won't work, but `$HOME/.vim/vimrc` will).
 
 The fourth, `$EXINIT` works similar to `$VIMINIT`. 
 
-The fifth and sixth, `$HOME/.exrc` and `$HOME/.vim/exrc` work similar to `$HOME/.vimrc` and `$HOME/.vim/vimrc`.
+The fifth, `$HOME/.exrc` works similar to `$HOME/.vimrc`.
 
-The seventh, `$VIMRUNTIME/defaults.vim` is the default vimrc that comes with your Vim build. In my case, I have Vim 8.2 installed using Homebrew, so my path is (`/usr/local/share/vim/vim82`). If Vim does not find any of the previous six vimrc files, it will use this file.
+The sixth, `$VIMRUNTIME/defaults.vim` is the default vimrc that comes with your Vim build. In my case, I have Vim 8.2 installed using Homebrew, so my path is (`/usr/local/share/vim/vim82`). If Vim does not find any of the previous six vimrc files, it will use this file.
 
 For the remaining of this chapter, I am assuming that the vimrc uses the `~/.vimrc` path. 
 
-## What To Put In My Vimrc?
+## What to Put in My Vimrc?
 
 A question I asked when I started was, "What should I put in my vimrc?"
 
@@ -187,16 +185,20 @@ nnoremap <Leader>tn :call ToggleNumber()<CR>
 
 On the first one, I map `Ctrl-F` to [fzf.vim](https://github.com/junegunn/fzf.vim) plugin's `:Gfiles` command (quickly search for Git files). On the second one, I map `<Leader>tn` to call a custom function `ToggleNumber` (toggles `norelativenumber` and `relativenumber` options). The `Ctrl-F` mapping overwrites Vim's native page scroll. Your mapping will overwrite Vim controls if they collide. Because I almost never used that feature, I decided that it is safe to overwrite it.
 
-By the way, I personally like to use `<Space>` as the leader key instead of Vim's default. To change your leader key, add this in your vimrc:
+By the way, what is this "leader" key in `<Leader>tn`?
+
+Vim has a leader key to help with mappings. For example, I mapped `<Leader>tn` to run the `ToggleNumber()` function. Without the leader key, I would be using `tn`, but Vim already has `t` (the "till" search navigation). With the leader key, I can now press the key assigned as a leader, then `tn` without interfering with existing commands. The leader key is a key that you can setup to start your mapping combo. By default Vim uses the backslash as the leader key (so `<Leader>tn` becomes "backslash-t-n").
+
+I personally like to use `<Space>` as the leader key instead of the backslash default. To change your leader key, add this in your vimrc:
 
 ```
 let mapleader = "\<space>"
 ```
 
 The `nnoremap` command used above can be broken down into three parts:
-- `map` is the map command.
 - `n` represents the normal mode.
 - `nore` means non-recursive.
+- `map` is the map command.
 
 At minimum, you could have used `nmap` instead of `nnoremap` (`nmap <silent> <C-f> :Gfiles<CR>`). However, it is a good practice to use the non-recursive variant to avoid potential infinite loop.
 
@@ -254,8 +256,10 @@ Inside `~/.vimrc`:
 source $HOME/.vim/settings/plugins.vim
 source $HOME/.vim/settings/configs.vim
 source $HOME/.vim/settings/functions.vim
-source $HOME/.vim/settings/mapppings.vim
+source $HOME/.vim/settings/mappings.vim
 ```
+
+You can edit these files by putting your cursor under the path and press `gf`.
 
 Inside `~/.vim/settings/plugins.vim`:
 
@@ -362,12 +366,12 @@ Your vimrc should look like this:
 
 +-- 5 lines: configs ---------
 
-+-- 9 ilnes: functions -------
++-- 9 lines: functions -------
 
 +-- 5 lines: mappings --------
 ```
 
-## Running Vim With Or Without Vimrc And Plugins
+## Running Vim With or Without Vimrc and Plugins
 
 If you need to run Vim without both vimrc and plugins, run:
 
@@ -393,6 +397,12 @@ If you need to run Vim with a *different* vimrc, say `~/.vimrc-backup`, run:
 vim -u ~/.vimrc-backup
 ```
 
-## Configure Vimrc The Smart Way
+If you need to run Vim with only `defaults.vim` and without plugins, which is helpful to fix broken vimrc, run:
+
+```
+vim --clean
+```
+
+## Configure Vimrc the Smart Way
 
 Vimrc is an important component of Vim customization. A good way to start building your vimrc is by reading other people's vimrcs and gradually build it over time. The best vimrc is not the one that developer X uses, but the one that is tailored exactly to fit your thinking framework and editing style.

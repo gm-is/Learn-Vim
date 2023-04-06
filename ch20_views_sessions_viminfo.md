@@ -1,4 +1,4 @@
-# Ch20. Views, Sessions, And Viminfo
+# Ch20. Views, Sessions, and Viminfo
 
 After you worked on a project for a while, you may find the project to gradually take shape with its own settings, folds, buffers, layouts, etc. It's like decorating your apartment after living in it for a while. The problem is, when you close Vim, you lose those changes. Wouldn't it be nice if you can keep those changes so the next time you open Vim, it looks just like you had never left?
 
@@ -65,7 +65,7 @@ To learn what other options are available for `viewoptions`, check out `:h viewo
 viewoptions=folds,cursor,curdir,localoptions
 ```
 
-### Saving The View
+### Saving the View
 
 With the `foo.txt` window properly folded and having `nonumber norelativenumber` options, let's save the View. Run:
 
@@ -83,15 +83,17 @@ You might wonder, "Where did Vim save this View file?" To see where Vim saves it
 :set viewdir?
 ```
 
-The default should say `~/.vim/view` (if you have a different OS, it might show a different path. Check out `:h viewdir` for more). If you want to change it to a different path, add this into your vimrc:
+In Unix based OS the default should say `~/.vim/view` (if you have a different OS, it might show a different path. Check out `:h viewdir` for more). If you are running a Unix based OS and want to change it to a different path, add this into your vimrc:
 
 ```
 set viewdir=$HOME/else/where
 ```
 
-### Loading The View File
+### Loading the View File
 
-Close the `foo.txt` if you haven't, then open `foo.txt` again. You should see the original text without the changes. That's expected. Let's load the View file. Run:
+Close the `foo.txt` if you haven't, then open `foo.txt` again. **You should see the original text without the changes.** That's expected. 
+
+To restore the state, you need to load the View file. Run:
 
 ```
 :loadview
@@ -164,7 +166,7 @@ Now you don't have to worry about creating and loading View anymore when you are
 
 If a View saves the settings of a window, a Session saves the information of all windows (including the layout).
 
-### Creating A New Session
+### Creating a New Session
 
 Suppose you are working with these 3 files in a `foobarbaz` project:
 
@@ -213,11 +215,7 @@ baz9
 baz10
 ```
 
-Let's say that your windows layout look like the following (using strategically placed `split` and `vsplit`):
-
-![Session Layout](images/session-layout.png)
-
-To preserve this look, you need to save the Session. Run:
+Now let's say that you split your windows with `:split` and `:vsplit`. To preserve this look, you need to save the Session. Run:
 
 ```
 :mksession
@@ -233,7 +231,7 @@ If you want to save the Session file somewhere else, you can pass an argument to
 
 If you want to overwrite the existing Session file, call the command with a `!` (`:mksession! ~/some/where/else.vim`).
 
-### Loading A Session
+### Loading a Session
 
 To load a Session, run:
 
@@ -241,7 +239,7 @@ To load a Session, run:
 :source Session.vim
 ```
 
-Now Vim looks like just the way you left it! Alternatively, you can also load a Session file from the terminal:
+Now Vim looks like just the way you left it, including the split windows! Alternatively, you can also load a Session file from the terminal:
 
 ```
 vim -S Session.vim
@@ -291,7 +289,7 @@ Session is a useful tool to preserve your project's external attributes. However
 
 ## Viminfo
 
-If you notice, after yanking a word into register a and quitting Vim, the next time you open Vim you still that text stored in the register. This is actually a work of Viminfo. Without it, Vim won't remember the register after you close Vim.
+If you notice, after yanking a word into register a and quitting Vim, the next time you open Vim you still have that text stored in register a. This is actually a work of Viminfo. Without it, Vim won't remember the register after you close Vim.
 
 If you use Vim 8 or higher, Vim enables Viminfo by default, so you may have been using Viminfo this whole time without knowing it!
 
@@ -316,7 +314,7 @@ The default Viminfo location for Unix is `$HOME/.viminfo` (`~/.viminfo`). If you
 
 *Make sure that you have `nocompatible` option set (`set nocompatible`), otherwise your Viminfo will not work.*
 
-### Writing And Reading Viminfo
+### Writing and Reading Viminfo
 
 Although you will use only one Viminfo file, you can create multiple Viminfo files. To write a Viminfo file, use the `:wviminfo` command (`:wv` for short).
 
@@ -379,15 +377,15 @@ You will get:
 ```
 
 This looks cryptic. Let's break it down:
-- `!` saves global variables that start with an uppercase letter and don't contain lowercase letters. Recall that `g:` indicates a global variable. For example, if at some point you wrote the assignment `let g:FOO = "foo"`, Viminfo will save the global variable `FOO`. However if you did `let g:Foo = "foo"`, Viminfo will not save this global variable because it contains lowercase letters. Without `!`, Vim won't safe those global variables.
+- `!` saves global variables that start with an uppercase letter and don't contain lowercase letters. Recall that `g:` indicates a global variable. For example, if at some point you wrote the assignment `let g:FOO = "foo"`, Viminfo will save the global variable `FOO`. However if you did `let g:Foo = "foo"`, Viminfo will not save this global variable because it contains lowercase letters. Without `!`, Vim won't save those global variables.
 - `'100` represents marks. In this case, Viminfo will save the local marks (a-z) of the last 100 files. Be aware that if you tell Viminfo to save too many files, Vim can start slowing down. 1000 is a good number to have.
-- `<50` tells Viminfo how many maximum lines are saved for each registers (50 in this case). If I yank 100 lines of text into register a (`"ay99j`) and close Vim, the next time I open Vim and paste from register a (`"ap`), Vim will only paste 50 lines max. If you don't give maximum line number, *all* lines will be saved. If you give it 0, nothing will be saved.
+- `<50` tells Viminfo how many maximum lines are saved for each register (50 in this case). If I yank 100 lines of text into register a (`"ay99j`) and close Vim, the next time I open Vim and paste from register a (`"ap`), Vim will only paste 50 lines max. If you don't give maximum line number, *all* lines will be saved. If you give it 0, nothing will be saved.
 - `s10` sets a size limit (in kb) for a register. In this case, any register greater than 10kb size will be excluded.
 - `h` disables highlighting (from `hlsearch`) when Vim starts.
 
 There are other options that you can pass. To learn more, check out `:h 'viminfo'`.
 
-## Using Views, Sessions, And Viminfo The Smart Way
+## Using Views, Sessions, and Viminfo the Smart Way
 
 Vim has View, Session, and Viminfo to take different level of your Vim environment snapshots. For micro projects, use Views. For larger projects, use Sessions. You should take your time to check out all the options that View, Session, and Viminfo offers.
 

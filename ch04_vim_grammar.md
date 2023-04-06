@@ -4,7 +4,7 @@ It is easy to get intimidated by the complexity of Vim commands. If you see a Vi
 
 This is the most important chapter in the entire guide. Once you understand the underlying grammatical structure, you will be able to "speak" to Vim. By the way, when I say *Vim language* in this chapter, I am not talking about Vimscript language (Vim's built-in programming language, you will learn that in later chapters).
 
-## How To Learn A Language
+## How to Learn a Language
 
 I am not a native English speaker. I learned English when I was 13 when I moved to the US. There are three things you need to do to learn to speak a new language:
 
@@ -60,7 +60,7 @@ c    Delete text, save to register, and start insert mode
 
 Btw, after you yank a text, you can paste it with `p` (after the cursor) or `P` (before the cursor).
 
-## Verb And Noun
+## Verb and Noun
 
 Now that you know basic nouns and verbs, let's apply the grammar rule, verb + noun! Suppose you have this expression:
 
@@ -72,12 +72,12 @@ const learn = "vim";
 - To delete from your current location to the beginning of the next word: `dw`.
 - To change from your current location to the end of the current paragraph, say `c}`.
 
-Motions also accept count number as arguments (I will discourse this in the next chapter). If you need to go up 3 lines, instead of pressing `k` 3 times, you can do `3k`. Count works with Vim grammar.
+Motions also accept count number as arguments (I will discuss this in the next chapter). If you need to go up 3 lines, instead of pressing `k` 3 times, you can do `3k`. Count works with Vim grammar.
 - To yank two characters to the left: `y2h`.
 - To delete the next two words: `d2w`.
 - To change the next two lines: `c2j`.
 
-Right now, you may have to think long and hard to do even a simple command. You're not alone. When I first started, I had similar struggles but I got faster in time. So will you. Repetition, repetition, repetition.
+Right now, you may have to think long and hard to execute even a simple command. You're not alone. When I first started, I had similar struggles but I got faster in time. So will you. Repetition, repetition, repetition.
 
 As a side note, linewise operations (operations affecting the entire line) are common operations in text editing. In general, by typing an operator command twice, Vim performs a linewise operation for that action. For example, `dd`, `yy`, and `cc` perform **deletion**, **yank**, and **change** on the entire line. Try this with other operators!
 
@@ -96,7 +96,7 @@ i + object    Inner text object
 a + object    Outer text object
 ```
 
-Inner text object selects the object inside *without* the white space or the surrounding objects. Outer text object selects the object inside *including* the white space or the surrounding objects. Generally, an outer text object always selects more text than an inner text object. If your cursor is somewhere inside the parentheses in the expression `(hello vim)`:
+Inner text object selects the object inside *without* the white space or the surrounding objects. Outer text object selects the object inside *including* the white space or the surrounding objects. Generally, an outer text object always selects more text than an inner text object. If your cursor is somewhere inside the parentheses in the expression `(hello Vim)`:
 - To delete the text inside the parentheses without deleting the parentheses: `di(`.
 - To delete the parentheses and the text inside: `da(`.
 
@@ -152,7 +152,7 @@ t         XML tags
 
 To learn more, check out `:h text-objects`.
 
-## Composability And Grammar
+## Composability and Grammar
 
 Vim grammar is subset of Vim's composability feature. Let's discuss composability in Vim and why this is a great feature to have in a text editor.
 
@@ -201,10 +201,10 @@ This composable behavior echoes Unix philosophy: *do one thing well*. An operato
 
 Motions and operators are extendable. You can create custom motions and operators to add to your Vim toolbelt. The [`vim-textobj-user`](https://github.com/kana/vim-textobj-user) plugin allows you to create your own text objects. It also contains a [list](https://github.com/kana/vim-textobj-user/wiki) of user-made custom text objects.
 
-## Learn Vim Grammar The Smart Way
+## Learn Vim Grammar the Smart Way
 
-You just learned about Vim grammar's rule: `verb + noun`. One of my biggest Vim "AHA!" moments was when I had just learned about the uppercase (`gU`) operator and wanted to uppercase the current word, I *instinctively* ran `gUiw` and it worked! The word was uppercased. At that moment, I finally began to understand Vim. My hope is that you will have your own "AHA!" moment soon, if not already.
+You just learned about Vim grammar's rule: `verb + noun`. One of my biggest Vim "AHA!" moment was when I had just learned about the uppercase (`gU`) operator and wanted to uppercase the current word, I *instinctively* ran `gUiw` and it worked! The word was uppercased. At that moment, I finally began to understand Vim. My hope is that you will have your own "AHA!" moment soon, if not already.
 
-The goal is this chapter is to show you the `verb + noun` pattern in Vim so you will approach learning Vim like learning a new language instead of memorizing every command combinations.
+The goal of this chapter is to show you the `verb + noun` pattern in Vim so you will approach learning Vim like learning a new language instead of memorizing every command combination.
 
 Learn the pattern and understand the implications. That's the smart way to learn.

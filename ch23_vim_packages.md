@@ -1,4 +1,4 @@
-# Ch22. Vim Packages
+# Ch23. Vim Packages
 
 In the previous chapter, I mentioned using an external plugin manager to install plugins. Since version 8, Vim comes with its own built-in plugin manager called *packages*. In this chapter, you will learn how to use Vim packages to install plugins.
 
@@ -8,7 +8,7 @@ To see if your Vim build has the ability to use packages, run `:version` and loo
 
 Check if you have a `~/.vim/` directory in the root path. If you don't, create one. Inside it, create a directory called `pack` (`~/.vim/pack/)`. Vim automatically knows to search inside this directory for packages.
 
-## Two Types Of Loading
+## Two Types of Loading
 
 Vim package has two loading mechanisms: automatic and manual loading.
 
@@ -86,7 +86,7 @@ else
 endif
 ```
 
-## Organizing packages
+## Organizing Packages
 
 Recall that the requirement to use Vim's package system is to have either:
 
@@ -121,11 +121,11 @@ You can still use `start/` and `opt/` inside each of the directories.
 ~/.vim/pack/games/opt/
 ```
 
-## Adding Packages The Smart Way
+## Adding Packages the Smart Way
 
 You may wonder if Vim package will make popular plugin managers like vim-pathogen, vundle.vim, dein.vim, and vim-plug obsolete.
 
-The answer is, as always, "it depends."
+The answer is, as always, "it depends".
 
 I still use vim-plug because it makes it easy to add, remove or update plugins. If you use many plugins, it may be more convenient to use plugin managers because it is easy to update many simultaneously. Some plugin managers also offer asynchronous functionalities.
 

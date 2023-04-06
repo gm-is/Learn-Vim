@@ -14,12 +14,12 @@ Vim has a bang (`!`) command that can do three things:
 
 Let's go through each of them.
 
-## Reading The STDOUT Of A Command Into Vim
+## Reading the STDOUT of a Command Into Vim
 
 The syntax to read the STDOUT of an external command into the current buffer is:
 
 ```
-:r !{cmd}
+:r !cmd
 ```
 
 `:r` is Vim's read command. If you use it without `!`, you can use it to get the content of a file. If you have a file `file1.txt` in the current directory and you run:
@@ -30,7 +30,7 @@ The syntax to read the STDOUT of an external command into the current buffer is:
 
 Vim will put the content of `file1.txt` into the current buffer.
 
-If you run the `:r` command followed by a `!` and an external command, the output of that commmand will be inserted into the current buffer. To get the result of the `ls` command, run:
+If you run the `:r` command followed by a `!` and an external command, the output of that command will be inserted into the current buffer. To get the result of the `ls` command, run:
 
 ```
 :r !ls
@@ -58,12 +58,12 @@ The `r` command also accepts an address:
 
 Now the STDOUT from running `cat file1.txt` will be inserted after line 10.
 
-## Writing The Buffer Content Into An External Command
+## Writing the Buffer Content Into an External Command
 
 The command `:w`, in addition to saving a file, can be used to pass the text in the current buffer as the STDIN for an external command. The syntax is:
 
 ```
-:w !{cmd}
+:w !cmd
 ```
 
 If you have these expressions:
@@ -91,7 +91,7 @@ Vim only uses the text from the second line into the `node` interpreter.
 
 There is a subtle but significant difference between `:w !node` and `:w! node`. With `:w !node`, you are "writing" the text in the current buffer into the external command `node`. With `:w! node`, you are force-saving a file and naming the file "node".
 
-## Executing An External Command
+## Executing an External Command
 
 You can execute an external command from inside Vim with the bang command. The syntax is:
 
@@ -137,7 +137,7 @@ hello vim
 
 The breakdown:
 - `.!` executes the filter command on the current line.
-- `!tr '[:lower:]' '[:upper:]'` calls the `tr` command to replace all lowercase characters with uppercase ones.
+- `tr '[:lower:]' '[:upper:]'` calls the `tr` command to replace all lowercase characters with uppercase ones.
 
 It is imperative to pass a range to run the external command as a filter. If you try running the command above without the `.` (`:!tr '[:lower:]' '[:upper:]'`), you will see an error.
 
@@ -209,7 +209,7 @@ The breakdown:
 
 The filter normal command only works on motions / text objects that are at least one line or longer. If you had tried running `!iwtr '[a-z]' '[A-Z]'` (execute `tr` on inner word), you will find that it applies the `tr` command on the entire line, not the word your cursor is on.
 
-## Learn External Commands The Smart Way
+## Learn External Commands the Smart Way
 
 Vim is not an IDE. It is a lightweight modal editor that is highly extensible by design. Because of this extensibility, you have an easy access to any external command in your system. Armed with these external commands, Vim is one step closer from becoming an IDE. Someone said that the Unix system is the first IDE ever.
 

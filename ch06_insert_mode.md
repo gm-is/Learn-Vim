@@ -4,26 +4,26 @@ Insert mode is the default mode of many text editors. In this mode, what you typ
 
 However, that does not mean there isn't much to learn. Vim's insert mode contains many useful features. In this chapter, you will learn how to use these insert mode features in Vim to improve your typing efficiency.
 
-## Ways To Go To Insert Mode
+## Ways to Go to Insert Mode
 
 There are many ways to get into insert mode from the normal mode. Here are some of them:
 
 ```
 i    Insert text before the cursor
-I    Insert text before the first non-blank character of the line.
+I    Insert text before the first non-blank character of the line
 a    Append text after the cursor
 A    Append text at the end of line
 o    Starts a new line below the cursor and insert text
 O    Starts a new line above the cursor and insert text
 s    Delete the character under the cursor and insert text
-S    Delete the current line and insert text
-gi   Insert text in same position where the last insert mode was stopped in current buffer
+S    Delete the current line and insert text, synonym for "cc"
+gi   Insert text in same position where the last insert mode was stopped
 gI   Insert text at the start of line (column 1)
 ```
 
 Notice the lowercase / uppercase pattern. For each lowercase command, there is an uppercase counterpart. If you are new, don't worry if you don't remember the whole list above. Start with `i` and `o`. They should be enough to get you started. Gradually learn more over time.
 
-## Different Ways To Exit Insert Mode
+## Different Ways to Exit Insert Mode
 
 There are a few different ways to return to the normal mode while in the insert mode:
 
@@ -35,7 +35,7 @@ Ctrl-C    Like Ctrl-[ and <Esc>, but does not check for abbreviation
 
 I find `<Esc>` key too far to reach, so I map my computer `<Caps-Lock>` to behave like `<Esc>`. If you search for Bill Joy's ADM-3A keyboard (Vi creator), you will see that the `<Esc>` key is not located on far top left like modern keyboards, but to the left of `q` key. This is why I think it makes sense to map  `<Caps lock>` to `<Esc>`.
 
-Another common convention I have seen Vim users do is mapping `esc` to `jj` or `jk` in insert mode.
+Another common convention I have seen Vim users do is mapping `<Esc>` to `jj` or `jk` in insert mode. If you prefer this option add this one of those lines (or both) in your vimrc file.
 
 ```
 inoremap jj <Esc>
@@ -52,14 +52,14 @@ You can pass a count parameter before entering insert mode. For example:
 
 If you type "hello world!" and exit insert mode, Vim will repeat the text 10 times. This will work with any insert mode method (ex: `10I`, `11a`, `12o`).
 
-## Deleting Chunks In Insert Mode
+## Deleting Chunks in Insert Mode
 
 When you make a typing mistake, it can be cumbersome to type `<Backspace>` repeatedly. It may make more sense to go to normal mode and delete your mistake. You can also delete several characters at a time while in insert mode.
 
 ```
-Ctrl-H    Delete one character
-Ctrl-W    Delete one word
-Ctrl-U    Delete the entire line
+Ctrl-h    Delete one character
+Ctrl-w    Delete one word
+Ctrl-u    Delete the entire line
 ```
 
 ## Insert From Register
@@ -120,7 +120,7 @@ In general, Vim looks at the text in all available buffers for autocompletion so
 
 Autocomplete is a vast topic in Vim. This is just the tip of the iceberg. To learn more, check out `:h ins-completion`.
 
-## Executing A Normal Mode Command
+## Executing a Normal Mode Command
 
 Did you know Vim can execute a normal mode command while in insert mode?
 
@@ -154,8 +154,8 @@ Ctrl-O dtz    Delete from current location till the letter "z"
 Ctrl-O D      Delete from current location to the end of the line
 ```
 
-## Learn Insert Mode The Smart Way
+## Learn Insert Mode the Smart Way
 
-If you are like me and you come from another text editor, it can be tempting to stay in insert mode. However, staying in insert mode when you're not entering a text is an anti-pattern. Develop a habit to go to normal mode when your fingers aren't typing new texts.
+If you are like me and you come from another text editor, it can be tempting to stay in insert mode. However, staying in insert mode when you're not entering a text is an anti-pattern. Develop a habit to go to normal mode when your fingers aren't typing new text.
 
 When you need to insert a text, first ask yourself if that text already exists. If it does, try to yank or move that text instead of typing it. If you have to use insert mode, see if you can autocomplete that text whenever possible. Avoid typing the same word more than once if you can.
